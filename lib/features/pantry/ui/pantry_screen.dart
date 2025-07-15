@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pantry_app/data/models/pantry_item.dart';
+import 'package:pantry_app/data/models/product.dart';
+import 'package:pantry_app/data/repositories/pantry_item_repository.dart';
 import 'package:pantry_app/features/pantry/widgets/pantry_item_card.dart';
 
 class PantryScreen extends StatefulWidget {
@@ -11,9 +12,9 @@ class PantryScreen extends StatefulWidget {
 
 class PantryScreenState extends State<PantryScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final PantryItemRepository _repo = PantryItemRepository();
 
-  List<PantryItem> _allItems = [];
-  String _searchQuery = '';
+  List<Product> _items = [];
 
   @override
   void initState() {
@@ -25,31 +26,23 @@ class PantryScreenState extends State<PantryScreen> {
     _loadItems();
   }
 
-  void _loadItems() {
-    setState(() {
-      // _allItems = _repo.getItems();
-    });
+  void _loadItems() async {
+    // final items = await _repo.allPantryItems();
+    // setState(() {
+    //   _items = items;
+    // });
   }
 
   void _deleteItem(int id) async {
-    // await _repo.removeItem(id);
+    // await _repo.removePantryItem(id);
     // _loadItems();
   }
 
-  List<PantryItem> get _filteredItems {
-    if (_searchQuery.isEmpty) return _allItems;
-    return _allItems
-        .where(
-          (item) =>
-              item.name.toLowerCase().contains(_searchQuery.toLowerCase()),
-        )
-        .toList();
-  }
-
-  void _onSearchChanged(String query) {
-    setState(() {
-      _searchQuery = query;
-    });
+  void _onSearchChanged(String query) async {
+    // final items = await _repo.searchPantryItems(query);
+    // setState(() {
+    //   _items = items;
+    // });
   }
 
   @override
@@ -75,17 +68,18 @@ class PantryScreenState extends State<PantryScreen> {
             ),
           ),
           Expanded(
-            child: _filteredItems.isEmpty
+            child: _items.isEmpty
                 ? const Center(child: Text('No items found.'))
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    itemCount: _filteredItems.length,
+                    itemCount: _items.length,
                     itemBuilder: (context, index) {
-                      final item = _filteredItems[index];
+                      final item = _items[index];
                       return Dismissible(
                         key: Key(
-                          item.name,
-                        ), // TODO: change this to actually be good
+                          // TODO: change key to use barcode instead
+                          "aaa",
+                        ),
                         direction: DismissDirection.endToStart,
                         background: Container(
                           decoration: BoxDecoration(
@@ -97,7 +91,9 @@ class PantryScreenState extends State<PantryScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: const Icon(Icons.delete, color: Colors.white),
                         ),
-                        onDismissed: (_) => _deleteItem(item.id),
+                        onDismissed: (_) => {
+                          /* TODO: delete all entries for this item */
+                        },
                         child: PantryItemCard(item: item),
                       );
                     },

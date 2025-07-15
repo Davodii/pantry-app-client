@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:pantry_app/data/store/pantry_item_repository.dart';
+import 'package:pantry_app/data/models/product.dart';
+import 'package:pantry_app/data/repositories/pantry_item_repository.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ScannerScreen extends StatefulWidget {
@@ -11,6 +12,7 @@ class ScannerScreen extends StatefulWidget {
 }
 
 class _ScannerScreenState extends State<ScannerScreen> {
+  final PantryItemRepository repo = PantryItemRepository();
   bool _hasPermission = false;
   bool _hasShownDialog = false;
 
@@ -37,25 +39,70 @@ class _ScannerScreenState extends State<ScannerScreen> {
     final String? value = barcode.rawValue;
     if (value == null || _hasShownDialog) return;
 
+    int? upcCode = int.tryParse(value);
+
+    if (upcCode == null) {
+      // This is an error, do not scan the barcode
+
+      // TODO: show to user that the product is invalid
+
+      return;
+    }
+
+    Product item = _getProductInformation(upcCode);
+
+    // TODO: insert product information into the dialog window
+    // TODO: create layout for dialog window
+
     _hasShownDialog = true;
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (_) => AlertDialog(
-        title: const Text('Scanned Barcode'),
-        content: Text('Value: $value'),
+        title: const Text('ITEM NAME'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text('Value $value'),
+            const SizedBox(height: 16),
+            const Text('What would you like to do?'),
+          ],
+        ),
+        actionsAlignment: MainAxisAlignment.spaceBetween,
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
-              setState(() {
-                _hasShownDialog = false;
-              });
+              _addItemAndCloseDialog(item);
             },
-            child: const Text('Ok'),
+            child: const Text('Add to Pantry'),
           ),
+          TextButton(onPressed: _closeDialog, child: const Text('Cancel')),
         ],
       ),
     );
+  }
+
+  Product _getProductInformation(int code) {
+    // TODO: emulate local request to a database that returns information as JSONn instead
+
+    // Product item = Product(id: code, name: "Temp Item", quantity: 1);
+    return Product(barcode: "12313");
+  }
+
+  void _closeDialog() {
+    Navigator.of(context).pop();
+    setState(() {
+      _hasShownDialog = false;
+    });
+  }
+
+  void _addItemAndCloseDialog(Product item) async {
+    // TODO: handle error inserting pantry item,
+    // await repo.insertPantryItem(item);
+
+    // Ensure no errors have occurred before closing the dialog
+    _closeDialog();
   }
 
   @override
