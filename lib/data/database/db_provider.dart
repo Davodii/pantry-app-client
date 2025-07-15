@@ -34,6 +34,8 @@ class DBProvider {
   Future<void> _onCreate(Database db, int version) async {
     return db.execute(
       // Create the pantry table (id, name, quantity, expiration)
+      // TODO: use csvsql to generate the correct headers needed (for beta)
+      // TODO: create all tables (pantry, products, ...)
       'CREATE TABLE pantry_items (id INTEGER PRIMARY KEY, name TEXT, quantity INTEGER, expiryDate TEXT)',
     );
   }
