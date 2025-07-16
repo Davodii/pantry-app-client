@@ -39,23 +39,23 @@ class Product {
     };
   }
 
-  factory Product.fromMap(Map<String, dynamic> json) {
+  factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      barcode: json['barcode'],
-      name: json['name'],
-      genericName: json['genericName'],
-      ingredients: json['ingredients'],
-      allergens: json['allergens'],
-      servingSize: json['servingSize'],
-      servingQuantity: json['servingQuantity'],
-      quantity: json['quantity'],
-      imageUrl: json['imageUrl'],
+      barcode: map['barcode'],
+      name: map['name'],
+      genericName: map['genericName'],
+      ingredients: map['ingredients'],
+      allergens: map['allergens'],
+      servingSize: map['servingSize'],
+      servingQuantity: map['servingQuantity'],
+      quantity: map['quantity'],
+      imageUrl: map['imageUrl'],
     );
   }
 
   @override
   String toString() {
-    return 'PantryItem('
+    return 'Product('
         'barcode: $barcode,'
         'name: $name,'
         'genericName: $genericName,'

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pantry_app/data/models/product.dart';
-import 'package:pantry_app/data/repositories/pantry_item_repository.dart';
+import 'package:pantry_app/data/repositories/pantry_repository.dart';
 import 'package:pantry_app/features/pantry/widgets/pantry_item_card.dart';
 
 class PantryScreen extends StatefulWidget {
@@ -12,7 +12,7 @@ class PantryScreen extends StatefulWidget {
 
 class PantryScreenState extends State<PantryScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final PantryItemRepository _repo = PantryItemRepository();
+  final PantryRepository _repo = PantryRepository();
 
   List<Product> _items = [];
 

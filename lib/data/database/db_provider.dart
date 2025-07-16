@@ -5,10 +5,12 @@ import 'package:sqflite/sqflite.dart';
 class DBProvider {
   static final DBProvider _instance = DBProvider._internal();
   factory DBProvider() => _instance;
-
   DBProvider._internal();
 
   Database? _database;
+  final String pantryTable = 'pantry';
+  final String productsTable = 'products';
+  final String groceryListTable = 'grocery_list';
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -25,7 +27,7 @@ class DBProvider {
       path,
       // Set the version. Executes onCreate function and provides a path
       // to perform database upgrades and downgrades.
-      version: 1,
+      version: 2,
       onCreate: _onCreate,
       // TODO: add migration functions for data when changing the database version
     );
@@ -35,8 +37,10 @@ class DBProvider {
     return db.execute(
       // Create the pantry table (id, name, quantity, expiration)
       // TODO: use csvsql to generate the correct headers needed (for beta)
-      // TODO: create all tables (pantry, products, ...)
-      'CREATE TABLE pantry_items (id INTEGER PRIMARY KEY, name TEXT, quantity INTEGER, expiryDate TEXT)',
+      // TODO: add lastUsedDate field to products and propagate through project
+      'CREATE TABLE $productsTable (barcode STRING PRIMARY KEY, name TEXT, genericName TEXT, ingredients TEXT, allergens TEXT, servingSize TEXT, servingQuantity TEXT, quantity TEXT, imageUrl TEXT);'
+      'CREATE TABLE $pantryTable (id INTEGER PRIMARY KEY AUTOINCREMENT, barcode STRING FOREIGN KEY REFERENCES products(barcode), quantity TEXT, expirationDate TEXT);'
+      'CREATE TABLE $groceryListTable (id INTEGER PRIMARY KEY, item TEXT, quantity TEXT, barcode STRING FOREIGN KEY REFERENCES products(barcode));',
     );
   }
 }

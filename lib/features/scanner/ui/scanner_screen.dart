@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pantry_app/data/models/product.dart';
-import 'package:pantry_app/data/repositories/pantry_item_repository.dart';
+import 'package:pantry_app/data/repositories/pantry_repository.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ScannerScreen extends StatefulWidget {
@@ -12,7 +12,7 @@ class ScannerScreen extends StatefulWidget {
 }
 
 class _ScannerScreenState extends State<ScannerScreen> {
-  final PantryItemRepository repo = PantryItemRepository();
+  final PantryRepository repo = PantryRepository();
   bool _hasPermission = false;
   bool _hasShownDialog = false;
 
