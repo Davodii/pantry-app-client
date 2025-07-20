@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pantry_app/src/core/data/models/product.dart';
+import 'package:pantry_app/src/features/pantry/data/models/pantry_item.dart';
 
 class PantryItemCard extends StatelessWidget {
-  final Product item;
+  final PantryItem item;
 
   const PantryItemCard({super.key, required this.item});
 
@@ -12,7 +12,7 @@ class PantryItemCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 2,
       child: ListTile(
-        title: Text(item.name!),
+        title: Text(item.product.name!),
         subtitle:
             // TODO: show expiration date if this entry has an expiration date associated with it
             // item.expiryDate != null
@@ -26,7 +26,7 @@ class PantryItemCard extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year}';
-  }
+  // String _formatDate(DateTime date) {
+  //   return '${date.day}/${date.month}/${date.year}';
+  // }
 }

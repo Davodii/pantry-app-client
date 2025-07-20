@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pantry_app/src/core/data/models/product.dart';
+import 'package:pantry_app/src/features/pantry/data/models/pantry_item.dart';
 import 'package:pantry_app/src/features/pantry/data/pantry_repository.dart';
 import 'package:pantry_app/src/features/pantry/presentation/pantry_item_card.dart';
 
@@ -14,7 +14,7 @@ class PantryScreenState extends State<PantryScreen> {
   final TextEditingController _searchController = TextEditingController();
   final PantryRepository _repo = PantryRepository();
 
-  List<Product> _items = [];
+  List<PantryItem> _items = [];
 
   @override
   void initState() {
@@ -27,22 +27,22 @@ class PantryScreenState extends State<PantryScreen> {
   }
 
   void _loadItems() async {
-    // final items = await _repo.allPantryItems();
-    // setState(() {
-    //   _items = items;
-    // });
+    final items = await _repo.getAllItems();
+    setState(() {
+      _items = items;
+    });
   }
 
-  void _deleteItem(int id) async {
-    // await _repo.removePantryItem(id);
-    // _loadItems();
-  }
+  // void _deleteItem(int id) async {
+  //   // await _repo.removePantryItem(id);
+  //   // _loadItems();
+  // }
 
   void _onSearchChanged(String query) async {
-    // final items = await _repo.searchPantryItems(query);
-    // setState(() {
-    //   _items = items;
-    // });
+    final items = await _repo.searchItemsByName(query);
+    setState(() {
+      _items = items;
+    });
   }
 
   @override
