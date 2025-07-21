@@ -1,10 +1,10 @@
-import 'package:pantry_app/src/core/database/db_provider.dart';
+import 'package:pantry_app/src/core/database/database_helper.dart';
 import 'package:pantry_app/src/features/pantry/data/models/pantry_item.dart';
-import 'package:pantry_app/src/core/data/models/product.dart';
+import 'package:pantry_app/src/core/models/product.dart';
 import 'package:sqflite/sqflite.dart';
 
 class PantryRepository {
-  final dbProvider = DBProvider();
+  final dbProvider = DatabaseHelper();
 
   // TODO: TEST ALL OF THESE FUNCTIONS AND OPERATIONS ARE CORRECT
 

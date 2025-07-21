@@ -1,7 +1,7 @@
 // app.dart
 import 'package:flutter/material.dart';
-import 'package:pantry_app/src/core/theme/app_theme.dart';
-import 'package:pantry_app/src/core/theme/theme_provider.dart';
+import 'package:pantry_app/src/app/theme/app_theme.dart';
+import 'package:pantry_app/src/app/theme/theme_provider.dart';
 import 'package:pantry_app/src/app/view/home_screen.dart';
 import 'package:provider/provider.dart';
 

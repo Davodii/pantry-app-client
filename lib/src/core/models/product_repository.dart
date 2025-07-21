@@ -1,12 +1,9 @@
 import 'package:pantry_app/src/core/database/database_helper.dart';
 import 'package:pantry_app/src/core/models/product.dart';
-import 'package:pantry_app/src/core/di/service_locator.dart';
-import 'package:pantry_app/src/core/data/datasources/product_api_datasource.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class ProductRepository {
   final dbProvider = DatabaseHelper();
-  final ProductApiDatasource _datasource = locator<ProductApiDatasource>();
 
   // - [x] insert item
   // - [x] remove product
@@ -40,17 +37,5 @@ class ProductRepository {
     );
 
     return result.map((map) => Product.fromMap(map)).toList();
-  }
-
-  Future<Product> getProduct(String barcode) async {
-    // final Database db = await dbProvider.database;
-    // TODO: check local cache to see if product is stored
-
-    Product product = await _datasource.fetchProduct(barcode);
-
-    // TODO: store product in local database
-    insertProduct(product);
-
-    return product;
   }
 }

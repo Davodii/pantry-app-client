@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:pantry_app/src/core/data/models/product.dart';
+import 'package:pantry_app/src/core/data/repositories/product_repository.dart';
+import 'package:pantry_app/src/core/models/product.dart';
 import 'package:pantry_app/src/features/pantry/data/pantry_repository.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -12,7 +13,8 @@ class ScannerScreen extends StatefulWidget {
 }
 
 class _ScannerScreenState extends State<ScannerScreen> {
-  final PantryRepository repo = PantryRepository();
+  final PantryRepository pantryRepository = PantryRepository();
+  final ProductRepository productRepository = ProductRepository();
   bool _hasPermission = false;
   bool _hasShownDialog = false;
 
@@ -35,22 +37,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
     requestCameraPermission();
   }
 
-  void _handleBarcodeScanned(Barcode barcode) {
+  void _handleBarcodeScanned(Barcode barcode) async {
     final String? value = barcode.rawValue;
     if (value == null || _hasShownDialog) return;
 
-    int? upcCode = int.tryParse(value);
-
-    if (upcCode == null) {
-      // This is an error, do not scan the barcode
-
-      // TODO: show to user that the product is invalid
-
-      return;
-    }
-
-    Product item = _getProductInformation(upcCode);
-
+    Product product = await _getProductInformation(value);
     // TODO: insert product information into the dialog window
     // TODO: create layout for dialog window
 
@@ -59,7 +50,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
-        title: const Text('ITEM NAME'),
+        title: Text('${product.name}'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -73,7 +64,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              _addItemAndCloseDialog(item);
+              _addItemAndCloseDialog(product);
             },
             child: const Text('Add to Pantry'),
           ),
@@ -83,11 +74,9 @@ class _ScannerScreenState extends State<ScannerScreen> {
     );
   }
 
-  Product _getProductInformation(int code) {
-    // TODO: emulate local request to a database that returns information as JSONn instead
-
-    // Product item = Product(id: code, name: "Temp Item", quantity: 1);
-    return Product(barcode: "12313");
+  Future<Product> _getProductInformation(String barcode) async {
+    // TODO: need to handle exceptions from requests and other things !!!
+    return await productRepository.getProduct(barcode);
   }
 
   void _closeDialog() {
@@ -98,8 +87,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
   }
 
   void _addItemAndCloseDialog(Product item) async {
+    String quantity = item.quantity == null ? "1" : item.quantity!;
+
     // TODO: handle error inserting pantry item,
-    // await repo.insertPantryItem(item);
+    // TODO: handle expiration date
+    await pantryRepository.insertItem(item.barcode, quantity, "");
 
     // Ensure no errors have occurred before closing the dialog
     _closeDialog();
