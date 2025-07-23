@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:pantry_app/src/core/api/api_constants.dart';
 import 'package:pantry_app/src/core/models/product.dart';
+import 'dart:convert';
 
 class ProductApiDatasource {
   final Dio _dio;
@@ -12,8 +13,10 @@ class ProductApiDatasource {
       final response = await _dio.get('${ApiConstants.products}/$barcode');
 
       if (response.statusCode == 200) {
-        // TODO: parse the JSON and create Product
-        return Product(barcode: barcode);
+        var result = jsonDecode(response.data);
+        var product = result['product'];
+
+        return Product.fromMap(product);
       } else {
         throw Exception('Failed to load product information');
       }
