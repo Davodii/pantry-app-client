@@ -6,9 +6,6 @@ abstract class ApiConstants {
 
   // Endpoint for fetching product information
   static const String products = '/product';
-
   // Endpoint for searching recipes
   static const String recipeSearch = '/recipes/search';
-
-
 }

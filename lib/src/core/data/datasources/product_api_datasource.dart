@@ -11,10 +11,16 @@ class ProductApiDatasource {
   Future<Product> fetchProduct(String barcode) async {
     try {
       final response = await _dio.get('${ApiConstants.products}/$barcode');
+      print('✅ - Response gotten with barcode $barcode');
 
       if (response.statusCode == 200) {
-        var result = jsonDecode(response.data);
-        var product = result['product'];
+        print('✅ - Recived valid information (Code 200)');
+        print(response.data);
+        var data = response.data;
+        print('✅ - Decoded JSON data');
+        var product = data['product'];
+        print('✅ - Decoded product map');
+        print('✅ - ${product.toString()}');
 
         return Product.fromMap(product);
       } else {

@@ -38,10 +38,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
   }
 
   void _handleBarcodeScanned(Barcode barcode) async {
-    final String? value = barcode.rawValue;
-    if (value == null || _hasShownDialog) return;
+    final String? barcodeValue = barcode.rawValue;
+    if (barcodeValue == null || _hasShownDialog) return;
 
-    Product product = await _getProductInformation(value);
+    Product product = await _getProductInformation(barcodeValue);
     // TODO: insert product information into the dialog window
     // TODO: create layout for dialog window
 
@@ -55,7 +55,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text('Value $value'),
+            Text('Barcode: $barcodeValue'),
             const SizedBox(height: 16),
             const Text('What would you like to do?'),
           ],

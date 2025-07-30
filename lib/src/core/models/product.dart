@@ -41,15 +41,16 @@ class Product {
 
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      barcode: map['barcode'],
-      name: map['name'],
-      genericName: map['genericName'],
-      ingredients: map['ingredients'],
-      allergens: map['allergens'],
-      servingSize: map['servingSize'],
-      servingQuantity: map['servingQuantity'],
+      barcode: map['code'],
+      name: map['product_name'],
+      genericName: map['generic_name'],
+      // ingredients: map['ingredients'],
+      // allergens: map['allergens'],
+      // servingSize: map['servingSize'],
+      // servingQuantity: map['servingQuantity'],
       quantity: map['quantity'],
-      imageUrl: map['imageUrl'],
+      // imageUrl: map['imageUrl'],
+      // imageUrl: "",
     );
   }
 
