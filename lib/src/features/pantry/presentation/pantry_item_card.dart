@@ -12,7 +12,7 @@ class PantryItemCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 2,
       child: ListTile(
-        title: Text(item.product.name!),
+        title: Text("Product name"),
         subtitle:
             // TODO: show expiration date if this entry has an expiration date associated with it
             // item.expiryDate != null

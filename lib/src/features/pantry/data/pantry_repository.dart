@@ -9,15 +9,15 @@ class PantryRepository {
   // TODO: TEST ALL OF THESE FUNCTIONS AND OPERATIONS ARE CORRECT
 
   Future<int> insertItem(
-    String barcode,
+    int code,
     String quantity,
     String expirationDate,
   ) async {
     final Database db = await dbProvider.database;
     return db.insert(dbProvider.pantryTable, {
-      "barcode": barcode,
+      "code": code,
       "quantity": quantity,
-      "expirationDate": expirationDate,
+      "expiration_date": expirationDate,
     });
   }
 
@@ -33,7 +33,7 @@ class PantryRepository {
 
   Future<int> updateItem(
     PantryItem current,
-    String barcode,
+    int code,
     String quantity,
     String expirationDate,
   ) async {
@@ -42,7 +42,7 @@ class PantryRepository {
     return db.update(
       dbProvider.pantryTable,
       {
-        "barcode": barcode,
+        "code": code,
         "quantity": quantity,
         "expirationDate": expirationDate,
       },
@@ -62,18 +62,18 @@ class PantryRepository {
       SELECT 
         $pantry.id,
         $pantry.quantity AS pantryQuantity,
-        $pantry.expirationDate,
-        $products.barcode,
+        $pantry.expiration_date,
+        $products.code,
         $products.name,
-        $products.genericName,
+        $products.generic_name,
         $products.ingredients,
         $products.allergens,
-        $products.servingSize,
-        $products.servingQuantity,
-        $products.quantity AS productQuantity,
-        $products.imageUrl
+        $products.serving_size,
+        $products.serving_quantity,
+        $products.quantity AS product_quantity,
+        $products.image_url
       FROM $pantry
-      INNER JOIN $products ON $pantry.barcode = $products.barcode
+      INNER JOIN $products ON $pantry.code = $products.code
       ''');
 
     return result.map((map) => _createPantryItem(map)).toList();
@@ -89,18 +89,18 @@ class PantryRepository {
       SELECT 
         $pantry.id,
         $pantry.quantity AS pantryQuantity,
-        $pantry.expirationDate,
-        $products.barcode,
+        $pantry.expiration_date,
+        $products.code,
         $products.name,
-        $products.genericName,
+        $products.generic_name,
         $products.ingredients,
         $products.allergens,
-        $products.servingSize,
-        $products.servingQuantity,
+        $products.serving_size,
+        $products.serving_quantity,
         $products.quantity AS productQuantity,
-        $products.imageUrl
+        $products.image_url
       FROM $pantry
-      INNER JOIN $products ON $pantry.barcode = $products.barcode
+      INNER JOIN $products ON $pantry.code = $products.code
       WHERE LOWER($products.name) LIKE LOWER('%$name%')
     ''');
 

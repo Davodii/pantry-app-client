@@ -19,7 +19,7 @@ class ProductRepository {
   Future<int> insertProduct(Product product) async {
     final Database db = await dbProvider.database;
 
-    return db.insert(dbProvider.productsTable, product.toMap());
+    return db.insert(dbProvider.productsTable, product.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<int> removeProduct(Product product) async {
@@ -28,7 +28,7 @@ class ProductRepository {
     return db.delete(
       dbProvider.productsTable,
       where: 'barcode = ?',
-      whereArgs: [product.barcode],
+      whereArgs: [product.code],
     );
   }
 
@@ -49,7 +49,8 @@ class ProductRepository {
     Product product = await _datasource.fetchProduct(barcode);
 
     // TODO: store product in local database
-    insertProduct(product);
+    await insertProduct(product);
+    print("✅ - Product inserted");
 
     return product;
   }

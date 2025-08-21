@@ -49,33 +49,34 @@ class DatabaseHelper {
     // TODO: add lastUsedDate field to products and propagate through project
     await db.execute('''
       CREATE TABLE $productsTable (
-        barcode STRING PRIMARY KEY,
+        code INTEGER PRIMARY KEY,
         name TEXT,
-        genericName TEXT,
+        generic_name TEXT,
         ingredients TEXT,
         allergens TEXT,
-        servingSize TEXT,
-        servingQuantity TEXT,
+        serving_size TEXT,
+        serving_quantity TEXT,
         quantity TEXT,
-        imageUrl TEXT)
+        image_url TEXT)
     ''');
 
     await db.execute('''
       CREATE TABLE $pantryTable (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        barcode STRING,
+        code INTEGER,
         quantity TEXT, 
-        expirationDate TEXT,
-        FOREIGN KEY (barcode) REFERENCES products(barcode)
+        expiration_date TEXT,
+        FOREIGN KEY (code) REFERENCES products(code)
       )
     ''');
 
     await db.execute('''
       CREATE TABLE $groceryListTable (
         id INTEGER PRIMARY KEY,
-        item TEXT, quantity TEXT,
-        barcode STRING,
-        FOREIGN KEY (barcode) REFERENCES products(barcode) 
+        item TEXT, 
+        quantity TEXT,
+        code INTEGER,
+        FOREIGN KEY (code) REFERENCES products(code) 
       )
     ''');
   }

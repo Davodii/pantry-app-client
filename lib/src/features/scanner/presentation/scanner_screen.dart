@@ -91,7 +91,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
     // TODO: handle error inserting pantry item,
     // TODO: handle expiration date
-    await pantryRepository.insertItem(item.barcode, quantity, "");
+    await pantryRepository.insertItem(item.code, quantity, "");
 
     // Ensure no errors have occurred before closing the dialog
     _closeDialog();

@@ -2,8 +2,7 @@
 // TODO: need to check the product CSV definition for this
 
 class Product {
-  final String barcode;
-  // final String url; // url to OFF website
+  final int code;
   final String? name;
   final String? genericName;
   final String? ingredients;
@@ -14,7 +13,7 @@ class Product {
   final String? imageUrl;
 
   Product({
-    required this.barcode,
+    required this.code,
     this.name,
     this.genericName,
     this.ingredients,
@@ -27,29 +26,29 @@ class Product {
 
   Map<String, Object?> toMap() {
     return {
-      "barcode": barcode,
+      "code": code,
       "name": name,
-      "genericName": genericName,
+      "generic_name": genericName,
       "ingredients": ingredients,
       "allergens": allergens,
-      "servingSize": servingSize,
-      "servingQuantity": servingQuantity,
+      "serving_size": servingSize,
+      "serving_quantity": servingQuantity,
       "quantity": quantity,
-      "imageUrl": imageUrl,
+      "image_url": imageUrl,
     };
   }
 
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      barcode: map['code'],
+      code: map['code'] is int ? map['code'] : int.parse(map['code']),
       name: map['product_name'],
       genericName: map['generic_name'],
-      // ingredients: map['ingredients'],
-      // allergens: map['allergens'],
-      // servingSize: map['servingSize'],
-      // servingQuantity: map['servingQuantity'],
+      ingredients: map['ingredients'],
+      allergens: map['allergens'],
+      servingSize: map['servingSize'],
+      servingQuantity: map['serving_quantity'],
       quantity: map['quantity'],
-      // imageUrl: map['imageUrl'],
+      imageUrl: map['image_url'],
       // imageUrl: "",
     );
   }
@@ -57,15 +56,15 @@ class Product {
   @override
   String toString() {
     return 'Product('
-        'barcode: $barcode,'
+        'code: $code,'
         'name: $name,'
-        'genericName: $genericName,'
+        'generic_name: $genericName,'
         'ingredients: $ingredients,'
         'allergens: $allergens,'
-        'servingSize: $servingSize,'
-        'servingQuantity: $servingQuantity,'
+        'serving_size: $servingSize,'
+        'serving_quantity: $servingQuantity,'
         'quantity: $quantity,'
-        'imageUrl: $imageUrl'
+        'image_url: $imageUrl'
         ')';
   }
 }

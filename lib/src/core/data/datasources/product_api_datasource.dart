@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:pantry_app/src/core/api/api_constants.dart';
 import 'package:pantry_app/src/core/models/product.dart';
-import 'dart:convert';
 
 class ProductApiDatasource {
   final Dio _dio;
@@ -18,11 +17,15 @@ class ProductApiDatasource {
         print(response.data);
         var data = response.data;
         print('✅ - Decoded JSON data');
-        var product = data['product'];
+        var productData = data['product'];
         print('✅ - Decoded product map');
-        print('✅ - ${product.toString()}');
 
-        return Product.fromMap(product);
+        productData['ingredients'] = 'ingredients';
+        productData['allergens'] = 'allergens';
+
+        var product = Product.fromMap(productData);
+        print("✅ - Created Product");
+        return product;
       } else {
         throw Exception('Failed to load product information');
       }

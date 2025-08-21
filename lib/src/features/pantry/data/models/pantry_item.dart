@@ -17,7 +17,7 @@ class PantryItem {
   Map<String, Object?> toMap() {
     return {
       "id": id,
-      "barcode": product.barcode,
+      "code": product.code,
       "quantity": quantity.value,
       "expirationDate": expirationDate,
     };
@@ -36,6 +36,6 @@ class PantryItem {
 
   @override
   String toString() {
-    return 'PantryItem(id: $id, barcode: ${product.barcode}, quantity: ${quantity.value}, expirationDate: $expirationDate)';
+    return 'PantryItem(id: $id, barcode: ${product.code}, quantity: ${quantity.value}, expirationDate: $expirationDate)';
   }
 }

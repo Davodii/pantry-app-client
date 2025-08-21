@@ -24,8 +24,8 @@ class ProductRepository {
 
     return db.delete(
       dbProvider.productsTable,
-      where: 'barcode = ?',
-      whereArgs: [product.barcode],
+      where: 'code = ?',
+      whereArgs: [product.code],
     );
   }
 
